@@ -23,7 +23,7 @@ class ProductList extends Component{
                 <td>{index + 1}</td>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td> <Link to={"form/" + index}><button type="button" className="btn btn-warning btn-sm">Update</button></Link>
+                <td> <Link to={"form/" + index}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
                     <button value={index} onClick={(e) => this.handleDelete(e)} type="button" className="btn btn-danger btn-sm">Delete</button>
                 </td>
             </tr>
