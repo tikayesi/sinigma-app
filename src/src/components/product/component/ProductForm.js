@@ -4,8 +4,8 @@ import product from "../service/ProductService";
 
 function ProductForm (props){
     let params = useParams();
-    const [newId, setNewId] = useState(params?product[params.id].id:"");
-    const [newName, setNewName] = useState(params?product[params.id].name:"");
+    const [newId, setNewId] = useState(params.id ? product[params.id].id:"");
+    const [newName, setNewName] = useState(params.id ? product[params.id].name:"");
 
     const navigate = useNavigate();
 
@@ -59,7 +59,7 @@ function ProductForm (props){
                 onChange={e => handleChangeName(e)}/>
                 </div>
             </div>
-            <input type="submit" value="Submit" onClick={(e) => params ? handleUpdate(e) : handleSubmit(e)}/> 
+            <input type="submit" value="Submit" onClick={(e) => params.id ? handleUpdate(e) : handleSubmit(e)}/> 
                     {/* <label>
                     Id:
                     <input type="text" name="id" value={newId}
