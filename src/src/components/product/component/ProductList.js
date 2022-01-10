@@ -1,6 +1,10 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 import product from "../service/ProductService";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
+//https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
 class ProductList extends Component{
 
@@ -12,8 +16,28 @@ class ProductList extends Component{
     }
 
     handleDelete(e) {
-    product.splice(e.target.value, 1);
-    this.setState({list : product})
+        confirmAlert({
+            title: 'Confirm to delete',
+            // String interpolation
+            message: `Are you sure to do this ${product[e.target.value].name}?`,
+            buttons: [
+              {
+                label: 'Yes',
+                onClick: () => {
+                    product.splice(e.target.value, 1);
+                    this.setState({list : product})
+                }
+              },
+              {
+                label: 'No',
+                onClick: () => {
+                    this.setState({list : product})
+                }
+              }
+            ]
+          });
+    // product.splice(e.target.value, 1);
+    // this.setState({list : product})
     }
 
 

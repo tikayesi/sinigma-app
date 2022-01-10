@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import product from "../service/ProductService";
 
-function ProductForm (props){
+function ProductForm (){
     let params = useParams();
     const [newId, setNewId] = useState(params.id ? product[params.id].id:"");
     const [newName, setNewName] = useState(params.id ? product[params.id].name:"");
@@ -29,7 +29,7 @@ function ProductForm (props){
 
     const handleUpdate = (event) => {
         product.map((val) => {
-            if(val == product[params.id]){
+            if(val === product[params.id]){
                 product[params.id] = {
                     id : newId,
                     name : newName
