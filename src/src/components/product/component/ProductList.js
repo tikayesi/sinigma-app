@@ -1,26 +1,26 @@
-import { Component } from "react";
+import { React, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { deleteProduct, getProducts } from "../service/ProductService";
+import { deleteProduct, getProduct, getProducts } from "../service/ProductService";
 
 //https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
-class ProductList extends Component{
+function ProductList() {
 
-    constructor(props){
-        super(props);
-        this.state = {
-            list : []
+    const [list, setNewList] = useState([]);
+    let firstInit = useRef(true);
+
+
+    useEffect(() => {
+        if(firstInit.current){
+        getProduct();
+        firstInit.current = false
         }
-    }
-
-    componentDidMount(){
-        this.getProduct()
-    }
+    })
     
 
-    handleDelete(e) {
+   const  handleDelete = (e) => {
         console.log(e);
         confirmAlert({
             title: 'Confirm to delete',
@@ -44,28 +44,25 @@ class ProductList extends Component{
           });
     }
 
-      async getProduct() {
+      async function getProduct() {
         try {
           const response = await getProducts();
-          this.setState({list: response.data.data})
+          setNewList(response.data.data)
         } catch (error) {
           console.error(error);
         }
       }
 
-
-    render(){
         let listProduct = "No Value"
-        console.log(this.state.list);
-        if(this.state.list.length !== 0 ){
+        if(list.length !== 0 ){
             console.log("kesana");
-        listProduct = this.state.list.map((product, index) => {
+        listProduct = list.map((product, index) => {
             return <tr key={product.id}>
                 <td>{index + 1}</td>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
                 <td> <Link to={`form/${product.id}`}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
-                    <button value={product} onClick={() => this.handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
+                    <button value={product} onClick={() => handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
                 </td>
             </tr>
         })
@@ -74,11 +71,10 @@ class ProductList extends Component{
         listProduct =  <tr><td>No Value</td></tr>
         
     }
-        let id = "";
         return(
             <div>
                 <h2>Product List</h2>
-                 <Link to={"form/" + id}>
+                 <Link to={"form"}>
                 <button type="button" className="btn btn-success">Add Product</button>
                 </Link>
                <table className="table table-striped">
@@ -97,6 +93,5 @@ class ProductList extends Component{
             </div>
         )
     }
-}
 
 export default ProductList;
