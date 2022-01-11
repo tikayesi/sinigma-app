@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import product from "../service/ProductService";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import axios from "axios";
 
 //https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
@@ -11,9 +12,14 @@ class ProductList extends Component{
     constructor(props){
         super(props);
         this.state = {
-            list : product
+            list : []
         }
     }
+
+    componentDidMount(){
+        this.getUser()
+    }
+    
 
     handleDelete(e) {
         confirmAlert({
@@ -40,9 +46,23 @@ class ProductList extends Component{
     // this.setState({list : product})
     }
 
+      async getUser() {
+        try {
+          const response = await axios.get('http://localhost:3000/products');
+          //console.log(response.data);
+          this.setState({list: response.data.data})
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
 
     render(){
-        let listProduct = this.state.list.map((product, index) => {
+        let listProduct = "No Value"
+        console.log(this.state.list);
+        if(this.state.list.length !== 0 ){
+            console.log("kesana");
+        listProduct = this.state.list.map((product, index) => {
             return <tr key={product.id}>
                 <td>{index + 1}</td>
                 <td>{product.id}</td>
@@ -52,6 +72,11 @@ class ProductList extends Component{
                 </td>
             </tr>
         })
+    }else{
+        console.log("kesini");
+        listProduct =  <h5>No Value</h5>
+        
+    }
         let id = "";
         return(
             <div>
