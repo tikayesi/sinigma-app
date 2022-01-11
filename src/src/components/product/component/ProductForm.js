@@ -1,62 +1,25 @@
-import React, {useEffect, useRef, useState} from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { createProduct, getProduct, updateproduct } from "../service/ProductService";
+import React, {useEffect} from "react";
+import { Link } from "react-router-dom";
+import { ProductFormBloc } from "../bloc/ProductFormBloc";
 
 function ProductForm (){
-    let params = useParams();
-    const [newId, setNewId] = useState('');
-    const [newName, setNewName] = useState('');
-    const readable = params.id ? true : false;
-    // Digunakan untuk melakukan initial awal,
-    // supaya ketika melakukan event useeffect tidak dipanggil terus menerus
-    let firstInit = useRef(true);
+
+    const {
+      newId,
+      newName,
+      readable,
+      params,
+      init,
+      handleChangeId,
+      handleChangeName,
+      handleSubmit,
+      handleUpdate
+    } = ProductFormBloc();
 
     useEffect(() => {
-        if(params.id){
-            if(firstInit.current){
-            getProduct(params.id)
-        .then(res => {
-          setNewId(res.data.id);
-          setNewName(res.data.name)
-        })
-        firstInit.current = false;
-      }
-    }
+      init()
     });
 
-    const navigate = useNavigate();
-
-    const handleChangeId = (event) => {
-        setNewId(event.target.value)
-    }
-
-    const handleChangeName = (event) => {
-        setNewName(event.target.value)
-    }
-
-    const handleSubmit = async (event) => {
-        try{
-           let res = await createProduct({ id : newId, name : newName });
-            console.log(res);
-            console.log(res.data);
-          navigate("/products");
-        } catch (error) {
-          console.error(error);
-        }
-        event.preventDefault()
-    }
-
-    const handleUpdate = async (event) => {
-        try{
-            const res = await updateproduct( { id : newId, name : newName })
-             console.log(res);
-             console.log(res.data);
-           navigate("/products");
-         } catch (error) {
-           console.error(error);
-         }
-        event.preventDefault()
-    }
 
         return(
             <div>

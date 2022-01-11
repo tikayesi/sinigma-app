@@ -1,61 +1,24 @@
-import { React, useEffect, useRef, useState } from "react";
+import { React, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import { deleteProduct, getProduct, getProducts } from "../service/ProductService";
+import { ProductListBloc } from "../bloc/ProductListBloc";
 
 //https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
 function ProductList() {
 
-    const [list, setNewList] = useState([]);
-    let firstInit = useRef(true);
-
+const {
+    list,
+    init,
+    handleDelete
+} = ProductListBloc()
 
     useEffect(() => {
-        if(firstInit.current){
-        getProduct();
-        firstInit.current = false
-        }
+        init()
     })
     
-
-   const  handleDelete = (e) => {
-        console.log(e);
-        confirmAlert({
-            title: 'Confirm to delete',
-            // String interpolation
-            message: `Are you sure to do this ${e.name}?`,
-            buttons: [
-              {
-                label: 'Yes',
-                onClick: async () => {
-                    await deleteProduct(e.id)
-                    this.getProduct();
-                }
-              },
-              {
-                label: 'No',
-                onClick: () => {
-                    this.getProduct();
-                }
-              }
-            ]
-          });
-    }
-
-      async function getProduct() {
-        try {
-          const response = await getProducts();
-          setNewList(response.data.data)
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
         let listProduct = "No Value"
         if(list.length !== 0 ){
-            console.log("kesana");
         listProduct = list.map((product, index) => {
             return <tr key={product.id}>
                 <td>{index + 1}</td>
@@ -67,9 +30,7 @@ function ProductList() {
             </tr>
         })
     }else{
-        console.log("kesini");
         listProduct =  <tr><td>No Value</td></tr>
-        
     }
         return(
             <div>
