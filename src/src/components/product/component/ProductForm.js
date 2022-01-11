@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 function ProductForm (){
@@ -7,14 +7,20 @@ function ProductForm (){
     const [newId, setNewId] = useState('');
     const [newName, setNewName] = useState('');
     const readable = params.id ? true : false;
+    const firstInit = useRef(true)
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/product/${params.id}`)
+      if(params.id){
+        if(firstInit.current){
+        axios.get(`http://localhost:3000/products/${params.id}`)
         .then(res => {
           setNewId(res.data.id);
           setNewName(res.data.name)
         })
-      });
+      }
+      firstInit.current = false
+    }
+    });
 
     const navigate = useNavigate();
 
@@ -28,7 +34,7 @@ function ProductForm (){
 
     const handleSubmit = async (event) => {
         try{
-           let res = await axios.post(`http://localhost:3000/product`, { id : newId, name : newName })
+           let res = await axios.post(`http://localhost:3000/products`, { id : newId, name : newName })
             console.log(res);
             console.log(res.data);
           navigate("/products");
@@ -40,7 +46,7 @@ function ProductForm (){
 
     const handleUpdate = async (event) => {
         try{
-            let res = await axios.put(`http://localhost:3000/product`, { id : newId, name : newName })
+            let res = await axios.put(`http://localhost:3000/products`, { id : newId, name : newName })
              console.log(res);
              console.log(res.data);
            navigate("/products");

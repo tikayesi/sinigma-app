@@ -30,7 +30,7 @@ class ProductList extends Component{
               {
                 label: 'Yes',
                 onClick: async () => {
-                    await axios.delete(`http://localhost:3000/product/${e.id}`)
+                    await axios.delete(`http://localhost:3000/products/${e.id}`)
                     this.getProduct();
                 }
               },
