@@ -1,20 +1,28 @@
-import axios from "axios";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { createProduct, getProduct, updateproduct } from "../service/ProductService";
 
 function ProductForm (){
     let params = useParams();
     const [newId, setNewId] = useState('');
     const [newName, setNewName] = useState('');
     const readable = params.id ? true : false;
+    // Digunakan untuk melakukan initial awal,
+    // supaya ketika melakukan event useeffect tidak dipanggil terus menerus
+    let firstInit = useRef(true);
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/product/${params.id}`)
+        if(params.id){
+            if(firstInit.current){
+            getProduct(params.id)
         .then(res => {
           setNewId(res.data.id);
           setNewName(res.data.name)
         })
-      });
+        firstInit.current = false;
+      }
+    }
+    });
 
     const navigate = useNavigate();
 
@@ -28,7 +36,7 @@ function ProductForm (){
 
     const handleSubmit = async (event) => {
         try{
-           let res = await axios.post(`http://localhost:3000/product`, { id : newId, name : newName })
+           let res = await createProduct({ id : newId, name : newName });
             console.log(res);
             console.log(res.data);
           navigate("/products");
@@ -40,7 +48,7 @@ function ProductForm (){
 
     const handleUpdate = async (event) => {
         try{
-            let res = await axios.put(`http://localhost:3000/product`, { id : newId, name : newName })
+            const res = await updateproduct( { id : newId, name : newName })
              console.log(res);
              console.log(res.data);
            navigate("/products");

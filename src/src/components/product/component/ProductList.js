@@ -2,7 +2,7 @@ import { Component } from "react";
 import { Link } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
-import axios from "axios";
+import { deleteProduct, getProducts } from "../service/ProductService";
 
 //https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
@@ -30,7 +30,7 @@ class ProductList extends Component{
               {
                 label: 'Yes',
                 onClick: async () => {
-                    await axios.delete(`http://localhost:3000/product/${e.id}`)
+                    await deleteProduct(e.id)
                     this.getProduct();
                 }
               },
@@ -46,7 +46,7 @@ class ProductList extends Component{
 
       async getProduct() {
         try {
-          const response = await axios.get('http://localhost:3000/products');
+          const response = await getProducts();
           this.setState({list: response.data.data})
         } catch (error) {
           console.error(error);
