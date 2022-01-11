@@ -9,7 +9,7 @@ class Routers extends Component{
     render(){
         return(
             <Routes>
-             <Route exact path="/" element={<Home/>} />
+             <Route path="/" element={<Home/>} />
             <Route path="/customers" element={<CustomerList/>} />
             <Route path="/products/*" element={<Product/>}/>           
           </Routes>

@@ -7,9 +7,8 @@ class Product extends Component{
     render(){
         return(
             <Routes>
-             <Route exact path="/" element={<ProductList/>} />
+             <Route path="/" element={<ProductList/>} />
             <Route path="/form" element={<ProductForm/>} />
-            {/* <Route path=":id" element={<ProductForm/>} /> */}
             <Route path="/form/:id" element={<ProductForm/>} />
           </Routes>
         )

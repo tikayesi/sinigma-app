@@ -1,11 +1,20 @@
-import React, {useState} from "react";
+import axios from "axios";
+import React, {useEffect, useState} from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import product from "../service/ProductService";
 
 function ProductForm (){
     let params = useParams();
-    const [newId, setNewId] = useState(params.id ? product[params.id].id:"");
-    const [newName, setNewName] = useState(params.id ? product[params.id].name:"");
+    const [newId, setNewId] = useState('');
+    const [newName, setNewName] = useState('');
+    const readable = params.id ? true : false;
+
+    useEffect(() => {
+        axios.get(`http://localhost:3000/product/${params.id}`)
+        .then(res => {
+          setNewId(res.data.id);
+          setNewName(res.data.name)
+        })
+      });
 
     const navigate = useNavigate();
 
@@ -17,26 +26,27 @@ function ProductForm (){
         setNewName(event.target.value)
     }
 
-    const handleSubmit = (event) => {
-        product.push({
-            id : newId,
-            name : newName
-        })
-        console.log(product);
-        navigate("/products");
+    const handleSubmit = async (event) => {
+        try{
+           let res = await axios.post(`http://localhost:3000/product`, { id : newId, name : newName })
+            console.log(res);
+            console.log(res.data);
+          navigate("/products");
+        } catch (error) {
+          console.error(error);
+        }
         event.preventDefault()
     }
 
-    const handleUpdate = (event) => {
-        product.map((val) => {
-            if(val === product[params.id]){
-                product[params.id] = {
-                    id : newId,
-                    name : newName
-                }
-            }
-        })
-        navigate("/products");
+    const handleUpdate = async (event) => {
+        try{
+            let res = await axios.put(`http://localhost:3000/product`, { id : newId, name : newName })
+             console.log(res);
+             console.log(res.data);
+           navigate("/products");
+         } catch (error) {
+           console.error(error);
+         }
         event.preventDefault()
     }
 
@@ -48,7 +58,7 @@ function ProductForm (){
                 <div className="col-sm-10">
                 <input type="text" className="form-control" id="inputId" placeholder="Id"
                 value={newId}
-                onChange={e => handleChangeId(e)}/>
+                onChange={e => handleChangeId(e)} readOnly={readable}/>
                 </div>
             </div>
             <br></br>
@@ -63,17 +73,6 @@ function ProductForm (){
             <br></br>
             <Link to={"/products"}><button className="btn btn-warning">Cancel</button></Link> {' '}
             <input className="btn btn-primary" type="submit" value="Submit" onClick={(e) => params.id ? handleUpdate(e) : handleSubmit(e)}/> 
-                    {/* <label>
-                    Id:
-                    <input type="text" name="id" value={newId}
-                    onChange={e => handleChangeId(e)}/>
-                    </label><br></br>
-                    <label>
-                    Name:
-                    <input type="text" name="name" value={newName}
-                    onChange={e => handleChangeName(e)}/>
-                    </label>
-                    <input type="submit" value="Submit" onClick={(e) => handleSubmit(e)}/> */}
             </div>
         )
     }

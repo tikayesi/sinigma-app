@@ -1,6 +1,5 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
-import product from "../service/ProductService";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import axios from "axios";
@@ -17,39 +16,37 @@ class ProductList extends Component{
     }
 
     componentDidMount(){
-        this.getUser()
+        this.getProduct()
     }
     
 
     handleDelete(e) {
+        console.log(e);
         confirmAlert({
             title: 'Confirm to delete',
             // String interpolation
-            message: `Are you sure to do this ${product[e.target.value].name}?`,
+            message: `Are you sure to do this ${e.name}?`,
             buttons: [
               {
                 label: 'Yes',
-                onClick: () => {
-                    product.splice(e.target.value, 1);
-                    this.setState({list : product})
+                onClick: async () => {
+                    await axios.delete(`http://localhost:3000/product/${e.id}`)
+                    this.getProduct();
                 }
               },
               {
                 label: 'No',
                 onClick: () => {
-                    this.setState({list : product})
+                    this.getProduct();
                 }
               }
             ]
           });
-    // product.splice(e.target.value, 1);
-    // this.setState({list : product})
     }
 
-      async getUser() {
+      async getProduct() {
         try {
           const response = await axios.get('http://localhost:3000/products');
-          //console.log(response.data);
           this.setState({list: response.data.data})
         } catch (error) {
           console.error(error);
@@ -67,26 +64,20 @@ class ProductList extends Component{
                 <td>{index + 1}</td>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
-                <td> <Link to={"form/" + index}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
-                    <button value={index} onClick={(e) => this.handleDelete(e)} type="button" className="btn btn-danger btn-sm">Delete</button>
+                <td> <Link to={`form/${product.id}`}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
+                    <button value={product} onClick={() => this.handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
                 </td>
             </tr>
         })
     }else{
         console.log("kesini");
-        listProduct =  <h5>No Value</h5>
+        listProduct =  <tr><td>No Value</td></tr>
         
     }
         let id = "";
         return(
             <div>
                 <h2>Product List</h2>
-                {/* <Link to={id}>
-                <button type="button" className="btn btn-success">Add Product</button>
-                </Link>
-                <Link to={"form"}>
-                <button type="button" className="btn btn-success">Add Product</button>
-                </Link> */}
                  <Link to={"form/" + id}>
                 <button type="button" className="btn btn-success">Add Product</button>
                 </Link>

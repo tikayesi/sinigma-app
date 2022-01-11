@@ -8,7 +8,7 @@ class Sidebar extends Component {
       <Fragment>
         <Nav vertical pills>
           <NavItem>
-            <NavLink exact to="/" className="nav-link">Home</NavLink>
+            <NavLink to="/" className="nav-link">Home</NavLink>
           </NavItem>
           <NavItem>
             <NavLink to="/customers" className="nav-link">Customers</NavLink>
