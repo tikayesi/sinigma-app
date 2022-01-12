@@ -5,15 +5,9 @@ import { ProductFormBloc } from "../bloc/ProductFormBloc";
 function ProductForm (){
 
     const {
-      newId,
-      newName,
       readable,
-      params,
       init,
-      handleChangeId,
-      handleChangeName,
-      handleSubmit,
-      handleUpdate
+      formik
     } = ProductFormBloc();
 
     useEffect(() => {
@@ -24,26 +18,30 @@ function ProductForm (){
         return(
             <div>
             <h2>Product Form</h2>
+            <form onSubmit={formik.handleSubmit}>
                 <div className="form-group row">
                 <label htmlFor="inputId" className="col-sm-2 col-form-label">Id</label>
                 <div className="col-sm-10">
-                <input type="text" className="form-control" id="inputId" placeholder="Id"
-                value={newId}
-                onChange={e => handleChangeId(e)} readOnly={readable}/>
+                <input type="text" name="id" className="form-control" id="inputId" placeholder="Id"
+                value={formik.values.id}
+                onChange={formik.handleChange} readOnly={readable}/>
                 </div>
             </div>
             <br></br>
             <div className="form-group row">
                 <label htmlFor="inputName" className="col-sm-2 col-form-label">Name</label>
                 <div className="col-sm-10">
-                <input type="text" className="form-control" id="inputName" placeholder="Name"
-                value={newName}
-                onChange={e => handleChangeName(e)}/>
+                <input type="text" name="name" className="form-control" id="inputName" placeholder="Name"
+                value={formik.values.name}
+                onChange={formik.handleChange}/>
+                 {formik.errors.name && formik.touched.name && (
+            <p>{formik.errors.name}</p>)}
                 </div>
             </div>
             <br></br>
             <Link to={"/products"}><button className="btn btn-warning">Cancel</button></Link> {' '}
-            <input className="btn btn-primary" type="submit" value="Submit" onClick={(e) => params.id ? handleUpdate(e) : handleSubmit(e)}/> 
+            <input className="btn btn-primary" type="submit" value="Submit"/> 
+            </form>
             </div>
         )
     }
