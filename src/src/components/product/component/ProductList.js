@@ -3,17 +3,19 @@ import { Link } from "react-router-dom";
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 import { deleteProduct, getProducts } from "../service/ProductService";
+import { connect } from "react-redux";
+import { FETCH_COMPLETE } from "../reducer/Action";
 
 //https://www.codecheef.org/article/react-delete-confirmation-modal-code-example
 
 class ProductList extends Component{
 
-    constructor(props){
-        super(props);
-        this.state = {
-            list : []
-        }
-    }
+    // constructor(props){
+    //     super(props);
+    //     this.state = {
+    //         list : []
+    //     }
+    // }
 
     componentDidMount(){
         this.getProduct()
@@ -45,9 +47,13 @@ class ProductList extends Component{
     }
 
       async getProduct() {
+          //const { fetchComplete } = this.props
         try {
           const response = await getProducts();
-          this.setState({list: response.data.data})
+          console.log("response data");
+          console.log(response.data);
+           this.props.fetchComplete(response.data)
+         // this.setState({list: response.data.data})
         } catch (error) {
           console.error(error);
         }
@@ -56,11 +62,13 @@ class ProductList extends Component{
 
     render(){
         let listProduct = "No Value"
-        console.log(this.state.list);
-        if(this.state.list.length !== 0 ){
+        const {products} = this.props;
+        console.log("this props");
+        console.log(this.props);
+        if(products.length !== 0 ){
             console.log("kesana");
-        listProduct = this.state.list.map((product, index) => {
-            return <tr key={product.id}>
+        listProduct = products.map((product, index) => {
+            return <tr>
                 <td>{index + 1}</td>
                 <td>{product.id}</td>
                 <td>{product.name}</td>
@@ -99,4 +107,14 @@ class ProductList extends Component{
     }
 }
 
-export default ProductList;
+function mapStateToProps(state) {
+    return {...state}
+  }
+
+  function mapDispatchToProps(dispatch){
+    return {
+      fetchComplete: (payload) => dispatch({type: FETCH_COMPLETE, payload})
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList);

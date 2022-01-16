@@ -1,0 +1,7 @@
+const FETCH_COMPLETE = 1;
+const EDIT_BUTTON = 2;
+const SET_LOADING = 3;
+
+export {
+    FETCH_COMPLETE, EDIT_BUTTON, SET_LOADING
+}
