@@ -16,7 +16,7 @@ function productReducer(state = initialState, action){
         case FETCH_COMPLETE:
             console.log("payload");
             console.log(payload.data);
-            return {...state, products: [payload.data]};
+            return {...state, products: payload.data};
         default:
             return {...state}
     }

@@ -61,27 +61,34 @@ class ProductList extends Component{
 
 
     render(){
-        let listProduct = "No Value"
+        // pembuatan variable baru didalam render tidak diperboleh
+        // karena membuat variable yang di asign berulang kali
+        // untuk pembuatan variable yang diasign berulang kali, pada react harus menggunakan state
+        // supaya jika data berubah maka hanya statenya saja yang dirender ulang
+        // jika membuat variable baru, maka akan terender semua sehingga kurang efektif untuk kinerja react itu sendiri
+
+        // let listProduct = "No Value"
         const {products} = this.props;
-        console.log("this props");
-        console.log(this.props);
-        if(products.length !== 0 ){
-            console.log("kesana");
-        listProduct = products.map((product, index) => {
-            return <tr>
-                <td>{index + 1}</td>
-                <td>{product.id}</td>
-                <td>{product.name}</td>
-                <td> <Link to={`form/${product.id}`}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
-                    <button value={product} onClick={() => this.handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
-                </td>
-            </tr>
-        })
-    }else{
-        console.log("kesini");
-        listProduct =  <tr><td>No Value</td></tr>
+        // console.log("this props");
+        // console.log(products);
+        // if(products.length !== 0 ){
+        //     console.log("kesana");
+        // listProduct = products.map((product, index) => {
+        //     console.log('product', product);
+        //     return <tr key={product.id}>
+        //         <td>{index + 1}</td>
+        //         <td>{product.id}</td>
+        //         <td>{product.name}</td>
+        //         <td> <Link to={`form/${product.id}`}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
+        //             <button value={product} onClick={() => this.handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
+        //         </td>
+        //     </tr>
+        // })
+    // }else{
+    //     console.log("kesini");
+    //     listProduct =  <tr><td>No Value</td></tr>
         
-    }
+    // }
         let id = "";
         return(
             <div>
@@ -99,7 +106,20 @@ class ProductList extends Component{
                     </tr>
                     </thead>
                     <tbody>
-                        {listProduct}
+                        { 
+                        products.length > 0 ?
+                        products.map((product, index) => {
+            console.log('product', product);
+            return <tr key={product.id}>
+                <td>{index + 1}</td>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td> <Link to={`form/${product.id}`}><button type="button" className="btn btn-warning btn-sm">Update</button></Link> {' '}
+                    <button value={product} onClick={() => this.handleDelete(product)} type="button" className="btn btn-danger btn-sm">Delete</button>
+                </td>
+            </tr>
+        }) : <tr><td>No Value</td></tr>
+    }
                     </tbody>
                </table>
             </div>
@@ -108,7 +128,11 @@ class ProductList extends Component{
 }
 
 function mapStateToProps(state) {
-    return {...state}
+    // line dibawah tidak diperbolehkan karena yang tercopy adalah storenya
+    // lebih baik jika spesifik data mana yang akan diambil
+    // return {...state}
+    return { products: state.products,
+    isLoading: state.isLoading}
   }
 
   function mapDispatchToProps(dispatch){

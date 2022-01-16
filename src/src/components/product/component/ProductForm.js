@@ -66,7 +66,7 @@ function ProductForm (){
                 <div className="col-sm-10">
                 <input type="text" className="form-control" id="inputId" placeholder="Id"
                 value={newId}
-                onChange={e => handleChangeId(e)} readOnly={readable}/>
+                onChange={handleChangeId} readOnly={readable}/>
                 </div>
             </div>
             <br></br>
@@ -75,7 +75,7 @@ function ProductForm (){
                 <div className="col-sm-10">
                 <input type="text" className="form-control" id="inputName" placeholder="Name"
                 value={newName}
-                onChange={e => handleChangeName(e)}/>
+                onChange={handleChangeName}/>
                 </div>
             </div>
             <br></br>
