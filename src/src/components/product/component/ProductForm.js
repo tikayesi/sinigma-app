@@ -39,7 +39,7 @@ function ProductForm (){
                 </div>
             </div>
             <br></br>
-            <Link to={"/products"}><button className="btn btn-warning">Cancel</button></Link> {' '}
+            <Link to={"/home/products"}><button className="btn btn-warning">Cancel</button></Link> {' '}
             <input className="btn btn-primary" type="submit" value="Submit"/> 
             </form>
             </div>

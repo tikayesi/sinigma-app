@@ -8,13 +8,13 @@ class Sidebar extends Component {
       <Fragment>
         <Nav vertical pills>
           <NavItem>
-            <NavLink to="/" className="nav-link">Home</NavLink>
+            <NavLink to="/home" className="nav-link">Home</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/customers" className="nav-link">Customers</NavLink>
+            <NavLink to="/home/customers" className="nav-link">Customers</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink to="/products" className="nav-link">Products</NavLink>
+            <NavLink to="/home/products" className="nav-link">Products</NavLink>
           </NavItem>
         </Nav>
       </Fragment>

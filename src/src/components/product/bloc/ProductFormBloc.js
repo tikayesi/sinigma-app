@@ -73,7 +73,7 @@ export const ProductFormBloc = () => {
             const res = await updateproduct( { id : formik.values.id, name : formik.values.name })
              console.log(res);
              console.log(res.data);
-           navigate("/products");
+           navigate("/home/products");
          } catch (error) {
            console.error(error);
          }
