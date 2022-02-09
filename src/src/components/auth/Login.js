@@ -14,9 +14,11 @@ export const Login = () => {
         };
         axios.post('http://localhost:3000/auth', body,  { responseType: 'json' })
         .then(res=>{
-            const toke = res.data.token;
-            sessionStorage.setItem('token', toke);
-            console.log("token: " + toke);
+            console.log("res ", res.data);
+            const dataToken = res.data.token;
+            sessionStorage.setItem('token', dataToken);
+            console.log("sesion token",sessionStorage.getItem('token'));
+            console.log("token: " + dataToken);
             navigate("/home");
         }).catch(res=>{
             alert("Username atau password salah!")

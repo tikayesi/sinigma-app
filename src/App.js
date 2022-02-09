@@ -6,6 +6,7 @@ import TwoColumnsLayout from './src/layout/TwoColumnsLayout';
 
 function App() {
   const routeGuard = (Component) => {
+    console.log(sessionStorage.getItem('token'));
     if (sessionStorage.getItem('token')) {
         return <Component/>
     } else {
