@@ -4,13 +4,15 @@ import './App.css';
 import {Login} from './src/components/auth/Login';
 import TwoColumnsLayout from './src/layout/TwoColumnsLayout';
 import RequireAuth from "./src/navigation/RequireAuth";
+import CustomerList from "./src/components/customer/component/CustomerList";
+import Product from "./src/components/product/Product";
 
 function App() {
     return (
         <Container fluid>
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Login/>}/>
+                    <Route index element={<Login/>}/>
                     <Route
                         path="/protected/*"
                         element={
@@ -19,6 +21,8 @@ function App() {
                             </RequireAuth>
                         }
                     >
+                        <Route path="customers" element={<CustomerList/>} />
+                        <Route path="products" element={<Product/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

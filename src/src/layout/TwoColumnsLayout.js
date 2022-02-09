@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Row, Col } from 'reactstrap';
+import React, {Component, Fragment} from 'react';
+import {Col, Row} from 'reactstrap';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import Routers from '../routes/Routers';
+import {Outlet} from "react-router-dom";
 
 class TwoColumnsLayout extends Component {
   render() {
@@ -18,7 +18,7 @@ class TwoColumnsLayout extends Component {
             <Sidebar />
           </Col>
           <Col sm="8" md="9" lg="10">
-            <Routers />
+            <Outlet />
           </Col>
         </Row>
       </Fragment>
