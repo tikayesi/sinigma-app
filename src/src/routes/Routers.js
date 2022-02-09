@@ -19,10 +19,9 @@ class Routers extends Component{
     render(){
         return(
             <Routes>
-             <Route path="/" element={<Home/>} />
-             {/* <Route path="/home" element={this.routeGuard(Home)} /> */}
+            <Route path="/" element={<Home/>} />
             <Route path="/customers" element={<CustomerList/>} />
-            <Route path="/products/*" element={<Product/>}/>           
+            <Route path="/products" element={<Product/>}/>
           </Routes>
         )
     }

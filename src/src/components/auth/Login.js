@@ -19,7 +19,7 @@ export const Login = () => {
             sessionStorage.setItem('token', dataToken);
             console.log("sesion token",sessionStorage.getItem('token'));
             console.log("token: " + dataToken);
-            navigate("/home");
+            navigate("/protected",{ replace: true });
         }).catch(res=>{
             alert("Username atau password salah!")
         })
@@ -46,11 +46,11 @@ export const Login = () => {
                                     <div>
                                         <div className={`form-group`}>
                                             <label htmlFor="exampleInputusername1">Username</label>
-                                            <input type="text" className="form-control" id="exampleInputusername1" aria-describedby="usernameHelp" placeholder="Enter username" 
+                                            <input type="text" className="form-control" id="exampleInputusername1" aria-describedby="usernameHelp" placeholder="Enter username"
                                           onChange={handleusername}   />
                                         </div>
                                         <label htmlFor="exampleInputusername1">Password</label>
-                                        <input type="password" className="form-control" id="exampleInputPassword1" aria-describedby="usernameHelp" placeholder="Enter password" 
+                                        <input type="password" className="form-control" id="exampleInputPassword1" aria-describedby="usernameHelp" placeholder="Enter password"
                                           onChange={handlePassword} />
                                     </div>
                                     <br></br>
