@@ -1,11 +1,12 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Outlet, Route, Routes} from 'react-router-dom';
 import {Container} from 'reactstrap';
 import './App.css';
 import {Login} from './src/components/auth/Login';
 import TwoColumnsLayout from './src/layout/TwoColumnsLayout';
 import RequireAuth from "./src/navigation/RequireAuth";
 import CustomerList from "./src/components/customer/component/CustomerList";
-import Product from "./src/components/product/Product";
+import ProductList from "./src/components/product/component/ProductList";
+import ProductForm from "./src/components/product/component/ProductForm";
 
 function App() {
     return (
@@ -21,8 +22,12 @@ function App() {
                             </RequireAuth>
                         }
                     >
-                        <Route path="customers" element={<CustomerList/>} />
-                        <Route path="products" element={<Product/>}/>
+                        <Route path="customers" element={<CustomerList/>}/>
+                        <Route path="products" element={<Outlet/>}>
+                            <Route index element={<ProductList/>}/>
+                            <Route path="form" element={<ProductForm/>}/>
+                            <Route path="form/:id" element={<ProductForm/>}/>
+                        </Route>
                     </Route>
                 </Routes>
             </BrowserRouter>
